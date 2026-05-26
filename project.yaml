@@ -8,3 +8,6 @@ spec:
   - name: '*'
     namespace: my-first-namespace
     server: https://kubernetes.default.svc
+  namespaceResourceWhitelist:
+  - group: apps
+    kind: Deployment    
