@@ -1,0 +1,31 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: apps
+  namespace: argocd
+spec:
+  generators:
+  - git:
+      repoURL: https://github.com/thschue/my-new-gitops-repo
+      revision: HEAD
+      directories:
+      - path: appset-apps/*
+  template:
+    metadata:
+      name: 'apps-{{ path.basename }}'
+    spec:
+      destination:
+        namespace: apps-{{ path.basename }}'
+        server: https://kubernetes.default.svc
+      project: default
+      source:
+        path: '{{ path }}'
+        repoURL: https://github.com/thschue/my-new-gitops-repo
+        targetRevision: HEAD
+      syncPolicy:
+        automated:
+          enabled: true
+          prune: true
+          selfHeal: true
+        syncOptions:
+        - CreateNamespace=true 
