@@ -1,0 +1,6 @@
+# https://artifacthub.io/packages/helm/podinfo/podinfo?modal=install
+
+myRepoURL: https://stefanprodan.github.io/podinfo
+myChart: podinfo
+myVersion: 6.14.0
+

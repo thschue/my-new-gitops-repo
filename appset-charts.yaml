@@ -1,0 +1,39 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: apps
+  namespace: argocd
+spec:
+  generators:
+  - git:
+      repoURL: https://github.com/thschue/my-new-gitops-repo
+      revision: HEAD
+      directories:
+      - path: appset-charts/**/config.yaml
+  template:
+    metadata:
+      name: 'chart-{{ path.basename }}'
+    spec:
+      destination:
+        namespace: chart-{{ path.basename }}
+        server: https://kubernetes.default.svc
+      project: default
+      sources:
+      - repoURL: https://github.com/thschue/my-new-gitops-repo
+        targetRevision: main
+        ref: values
+      - repoURL: '{{ .myRepoURL }}'
+        targetRevision: '{{ .myVersion }}'
+        chart: '{{ .myChart }}'
+        helm:
+          releaseName: '{{ .myChart }}'
+          valueFiles:
+            - $values/appset-charts/{{ .path.basename }}/values.yaml
+          ignoreMissingValueFiles: true
+      syncPolicy:
+        automated:
+          enabled: true
+          prune: true
+          selfHeal: true
+        syncOptions:
+        - CreateNamespace=true 
