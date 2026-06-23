@@ -4,6 +4,8 @@ metadata:
   name: charts
   namespace: argocd
 spec:
+  goTemplate: true
+  goTemplateOptions: [ "missingkey=error" ]
   generators:
   - git:
       repoURL: https://github.com/thschue/my-new-gitops-repo
@@ -22,11 +24,11 @@ spec:
       - repoURL: https://github.com/thschue/my-new-gitops-repo
         targetRevision: main
         ref: values
-      - repoURL: '{{ .repoURL }}'
-        targetRevision: '{{ .targetRevision }}'
-        chart: '{{ .chart }}'
+      - repoURL: '{{ .myRepoURL }}'
+        targetRevision: '{{ .myVersion }}'
+        chart: '{{ .myChart }}'
         helm:
-          releaseName: '{{ .chart }}'
+          releaseName: '{{ .myChart }}'
           valueFiles:
             - $values/appset-charts/{{ .path.basename }}/values.yaml
           ignoreMissingValueFiles: true
