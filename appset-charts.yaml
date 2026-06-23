@@ -22,9 +22,9 @@ spec:
       - repoURL: https://github.com/thschue/my-new-gitops-repo
         targetRevision: main
         ref: values
-      - repoURL: '{{ .myRepoURL }}'
-        targetRevision: '{{ .myVersion }}'
-        chart: '{{ .myChart }}'
+      - repoURL: '{{ .repoURL }}'
+        targetRevision: '{{ .targetRevision }}'
+        chart: '{{ .chart }}'
         helm:
           releaseName: '{{ .myChart }}'
           valueFiles:
