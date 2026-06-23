@@ -8,7 +8,7 @@ spec:
   - git:
       repoURL: https://github.com/thschue/my-new-gitops-repo
       revision: HEAD
-      directories:
+      files:
       - path: appset-charts/**/config.yaml
   template:
     metadata:
