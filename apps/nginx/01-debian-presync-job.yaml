@@ -1,0 +1,25 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: debian-presync-01
+  annotations:
+    argocd.argoproj.io/hook: PreSync
+    argocd.argoproj.io/hook-delete-policy: HookSucceeded,HookFailed
+    argocd.argoproj.io/sync-wave: "-1"
+spec:
+  backoffLimit: 0
+  template:
+    metadata:
+      labels:
+        app: debian-presync
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: debian
+          image: debian:bookworm-slim
+          command:
+            [
+              "sh",
+              "-c",
+              "echo PreSync debian starting...; sleep 15; echo PreSync debian done",
+            ]
